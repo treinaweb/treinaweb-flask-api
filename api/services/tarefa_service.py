@@ -11,3 +11,7 @@ def cadastrar_tarefa(tarefa):
 def listar_tarefas():
     tarefas = tarefa_model.Tarefa.query.all()
     return tarefas
+
+def listar_tarefa_id(id):
+    tarefa = tarefa_model.Tarefa.query.filter_by(id=id).first()
+    return tarefa

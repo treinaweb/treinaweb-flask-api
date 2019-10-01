@@ -24,4 +24,19 @@ class TarefaList(Resource):
             result = tarefa_service.cadastrar_tarefa(tarefa_nova)
             return make_response(ts.jsonify(result), 201)
 
+class TarefaDetail(Resource):
+    def get(self, id):
+        tarefa = tarefa_service.listar_tarefa_id(id)
+        if tarefa is None:
+            return make_response(jsonify("Tarefa não encontrada"), 404)
+        ts = tarefa_schema.TarefaSchema()
+        return make_response(ts.jsonify(tarefa), 200)
+
+    def put(self, id):
+        pass
+
+    def delete(self, id):
+        pass
+
 api.add_resource(TarefaList, '/tarefas')
+api.add_resource(TarefaDetail, '/tarefas/<int:id>')
