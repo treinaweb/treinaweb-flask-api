@@ -7,7 +7,9 @@ from ..services import tarefa_service
 
 class TarefaList(Resource):
     def get(self):
-        return "Olá mundo"
+        tarefas = tarefa_service.listar_tarefas()
+        ts = tarefa_schema.TarefaSchema(many=True)
+        return make_response(ts.jsonify(tarefas), 200)
 
     def post(self):
         ts = tarefa_schema.TarefaSchema()
