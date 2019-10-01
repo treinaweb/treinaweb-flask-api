@@ -33,7 +33,22 @@ class TarefaDetail(Resource):
         return make_response(ts.jsonify(tarefa), 200)
 
     def put(self, id):
-        pass
+        tarefa_bd = tarefa_service.listar_tarefa_id(id)
+        if tarefa_bd is None:
+            return make_response(jsonify("Tarefa não encontrada"), 404)
+        ts = tarefa_schema.TarefaSchema()
+        validate = ts.validate(request.json)
+        if validate:
+            return make_response(jsonify(validate), 400)
+        else:
+            titulo = request.json["titulo"]
+            descricao = request.json["descricao"]
+            data_expiracao = request.json["data_expiracao"]
+            tarefa_nova = tarefa.Tarefa(titulo=titulo, descricao=descricao,
+                                        data_expiracao=data_expiracao)
+            tarefa_service.editar_tarefa(tarefa_bd, tarefa_nova)
+            tarefa_atualizada = tarefa_service.listar_tarefa_id(id)
+            return make_response(ts.jsonify(tarefa_atualizada), 200)
 
     def delete(self, id):
         pass

@@ -15,3 +15,9 @@ def listar_tarefas():
 def listar_tarefa_id(id):
     tarefa = tarefa_model.Tarefa.query.filter_by(id=id).first()
     return tarefa
+
+def editar_tarefa(tarefa_bd, tarefa_nova):
+    tarefa_bd.titulo = tarefa_nova.titulo
+    tarefa_bd.descricao = tarefa_nova.descricao
+    tarefa_bd.data_expiracao = tarefa_nova.data_expiracao
+    db.session.commit()
