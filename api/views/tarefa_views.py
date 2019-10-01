@@ -51,7 +51,11 @@ class TarefaDetail(Resource):
             return make_response(ts.jsonify(tarefa_atualizada), 200)
 
     def delete(self, id):
-        pass
+        tarefa = tarefa_service.listar_tarefa_id(id)
+        if tarefa is None:
+            return make_response(jsonify("Tarefa não encontrada"), 404)
+        tarefa_service.remover_tarefa(tarefa)
+        return make_response('', 204)
 
 api.add_resource(TarefaList, '/tarefas')
 api.add_resource(TarefaDetail, '/tarefas/<int:id>')

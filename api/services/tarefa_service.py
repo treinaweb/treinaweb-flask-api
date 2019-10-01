@@ -21,3 +21,7 @@ def editar_tarefa(tarefa_bd, tarefa_nova):
     tarefa_bd.descricao = tarefa_nova.descricao
     tarefa_bd.data_expiracao = tarefa_nova.data_expiracao
     db.session.commit()
+
+def remover_tarefa(tarefa):
+    db.session.delete(tarefa)
+    db.session.commit()
