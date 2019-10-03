@@ -3,7 +3,7 @@ from api import db
 
 def cadastrar_tarefa(tarefa):
     tarefa_bd = tarefa_model.Tarefa(titulo=tarefa.titulo, descricao=tarefa.descricao,
-                                    data_expiracao=tarefa.data_expiracao)
+                                    data_expiracao=tarefa.data_expiracao, projeto=tarefa.projeto)
     db.session.add(tarefa_bd)
     db.session.commit()
     return tarefa_bd
@@ -20,6 +20,7 @@ def editar_tarefa(tarefa_bd, tarefa_nova):
     tarefa_bd.titulo = tarefa_nova.titulo
     tarefa_bd.descricao = tarefa_nova.descricao
     tarefa_bd.data_expiracao = tarefa_nova.data_expiracao
+    tarefa_bd.projeto = tarefa_nova.projeto
     db.session.commit()
 
 def remover_tarefa(tarefa):
