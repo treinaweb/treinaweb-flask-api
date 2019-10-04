@@ -4,12 +4,14 @@ from ..schemas import tarefa_schema
 from flask import request, make_response, jsonify
 from ..entidades import tarefa
 from ..services import tarefa_service, projeto_service
+from ..pagination import paginate
+from ..models.tarefa_model import Tarefa
 
 class TarefaList(Resource):
     def get(self):
-        tarefas = tarefa_service.listar_tarefas()
+        #tarefas = tarefa_service.listar_tarefas()
         ts = tarefa_schema.TarefaSchema(many=True)
-        return make_response(ts.jsonify(tarefas), 200)
+        return paginate(Tarefa, ts)
 
     def post(self):
         ts = tarefa_schema.TarefaSchema()

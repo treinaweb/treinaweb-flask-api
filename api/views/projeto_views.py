@@ -4,12 +4,14 @@ from ..schemas import projeto_schema
 from flask import request, make_response, jsonify
 from ..entidades import projeto
 from ..services import projeto_service
+from ..pagination import paginate
+from ..models.projeto_model import Projeto
 
 class ProjetoList(Resource):
     def get(self):
-        projetos = projeto_service.listar_projetos()
+        #projetos = projeto_service.listar_projetos()
         ps = projeto_schema.ProjetoSchema(many=True)
-        return make_response(ps.jsonify(projetos), 200)
+        return paginate(Projeto, ps)
 
     def post(self):
         ps = projeto_schema.ProjetoSchema()

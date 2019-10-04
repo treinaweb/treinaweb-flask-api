@@ -4,12 +4,14 @@ from ..schemas import funcionario_schema
 from flask import request, make_response, jsonify
 from ..entidades import funcionario
 from ..services import funcionario_service
+from ..pagination import paginate
+from ..models.funcionario_model import Funcionario
 
 class FuncionarioList(Resource):
     def get(self):
-        funcionarios = funcionario_service.listar_funcionarios()
+        #funcionarios = funcionario_service.listar_funcionarios()
         fs = funcionario_schema.FuncionarioSchema(many=True)
-        return make_response(fs.jsonify(funcionarios), 200)
+        return paginate(Funcionario, fs)
 
     def post(self):
         fs = funcionario_schema.FuncionarioSchema()
