@@ -1,5 +1,4 @@
 from api import db
-from .projeto_model import Projeto
 
 class Funcionario(db.Model):
     __tablename__ = "funcionario"
@@ -8,4 +7,4 @@ class Funcionario(db.Model):
     nome = db.Column(db.String(50), nullable=False)
     idade = db.Column(db.Integer, nullable=False)
 
-    projetos = db.relationship(Projeto, secondary="funcionario_projeto", back_populates="funcionarios")
+    projetos = db.relationship("Projeto", secondary="funcionario_projeto", back_populates="funcionarios")
