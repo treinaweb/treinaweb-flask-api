@@ -12,5 +12,5 @@ migrate = Migrate(app, db)
 
 api = Api(app)
 
-from .views import tarefa_views, projeto_views, funcionario_views
-from .models import tarefa_model, projeto_model, funcionario_model
+from .views import tarefa_views, projeto_views, funcionario_views, usuario_views
+from .models import tarefa_model, projeto_model, funcionario_model, usuario_model
