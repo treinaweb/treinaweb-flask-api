@@ -9,4 +9,4 @@ def cadastrar_usuario(usuario):
     return usuario_bd
 
 def listar_usuario(email):
-    return usuario_model.Usuario.query.filter(email=email).first()
+    return usuario_model.Usuario.query.filter_by(email=email).first()
