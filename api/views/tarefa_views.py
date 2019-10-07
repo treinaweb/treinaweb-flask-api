@@ -1,3 +1,4 @@
+from flask_jwt_extended import jwt_required
 from flask_restful import Resource
 from api import api
 from ..schemas import tarefa_schema
@@ -8,6 +9,7 @@ from ..pagination import paginate
 from ..models.tarefa_model import Tarefa
 
 class TarefaList(Resource):
+    @jwt_required
     def get(self):
         #tarefas = tarefa_service.listar_tarefas()
         ts = tarefa_schema.TarefaSchema(many=True)
@@ -32,6 +34,7 @@ class TarefaList(Resource):
             return make_response(ts.jsonify(result), 201)
 
 class TarefaDetail(Resource):
+    @jwt_required
     def get(self, id):
         tarefa = tarefa_service.listar_tarefa_id(id)
         if tarefa is None:
