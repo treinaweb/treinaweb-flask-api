@@ -11,11 +11,76 @@ from ..models.tarefa_model import Tarefa
 class TarefaList(Resource):
     @jwt_required
     def get(self):
+        """
+        Listagem de todas as tarefas
+        ---
+        parameters:
+          - in: header
+            name: Authorization
+            type: string
+            required: true
+        responses:
+          200:
+            description: Lista de todas as tarefas
+            schema:
+              id: Tarefa
+              properties:
+                tarefa_id:
+                  type: integer
+                titulo:
+                  type: string
+                descricao:
+                  type: string
+                data_expiracao:
+                  type: string
+                projeto:
+                  type: string
+
+        """
         #tarefas = tarefa_service.listar_tarefas()
         ts = tarefa_schema.TarefaSchema(many=True)
         return paginate(Tarefa, ts)
 
     def post(self):
+        """
+        Esta rota é responsável por cadastrar uma nova tarefa
+        ---
+        parameters:
+          - in: body
+            name: Tarefa
+            description: Criar nova tarefa
+            schema:
+              type: object
+              required:
+                - titulo
+                - descricao
+                - data_expiracao
+                - projeto
+              properties:
+                titulo:
+                  type: string
+                descricao:
+                  type: string
+                data_expiracao:
+                  type: string
+                projeto:
+                  type: string
+        responses:
+          201:
+            description: Tarefa criada com sucesso
+            schema:
+              id: Tarefa
+              properties:
+                titulo:
+                  type: string
+                descricao:
+                  type: string
+                data_expiracao:
+                  type: string
+                projeto:
+                  type: string
+
+        """
         ts = tarefa_schema.TarefaSchema()
         validate = ts.validate(request.json)
         if validate:
@@ -36,6 +101,36 @@ class TarefaList(Resource):
 class TarefaDetail(Resource):
     @jwt_required
     def get(self, id):
+        """
+        Retorna a tarefa que possui o ID como parâmetro
+        ---
+        parameters:
+          - in: header
+            name: Authorization
+            type: string
+            required: true
+          - in: path
+            name: id
+            type: integer
+            required: true
+        responses:
+          200:
+            description: Tarefa que possui o ID enviado
+            schema:
+              id: Tarefa
+              properties:
+                tarefa_id:
+                  type: integer
+                titulo:
+                  type: string
+                descricao:
+                  type: string
+                data_expiracao:
+                  type: string
+                projeto:
+                  type: string
+
+        """
         tarefa = tarefa_service.listar_tarefa_id(id)
         if tarefa is None:
             return make_response(jsonify("Tarefa não encontrada"), 404)
@@ -43,6 +138,52 @@ class TarefaDetail(Resource):
         return make_response(ts.jsonify(tarefa), 200)
 
     def put(self, id):
+        """
+        Retorna a tarefa que possui o ID passado como parâmetro
+        ---
+        parameters:
+          - in: path
+            name: id
+            type: integer
+            required: true
+          - in: body
+            name: Tarefa
+            description: Criar nova tarefa
+            schema:
+              type: object
+              required:
+                - titulo
+                - descricao
+                - data_expiracao
+                - projeto
+              properties:
+                titulo:
+                  type: string
+                descricao:
+                  type: string
+                data_expiracao:
+                  type: string
+                projeto:
+                  type: string
+        responses:
+          200:
+            description: Tarefa editada com sucesso
+            schema:
+              id: Tarefa
+              properties:
+                titulo:
+                  type: string
+                descricao:
+                  type: string
+                data_expiracao:
+                  type: string
+                projeto:
+                  type: string
+          404:
+            description: Tarefa não encontrada
+
+
+        """
         tarefa_bd = tarefa_service.listar_tarefa_id(id)
         if tarefa_bd is None:
             return make_response(jsonify("Tarefa não encontrada"), 404)
@@ -65,6 +206,19 @@ class TarefaDetail(Resource):
             return make_response(ts.jsonify(tarefa_atualizada), 200)
 
     def delete(self, id):
+        """
+        Remove a tarefa que possui o ID como parâmetro
+        ---
+        parameters:
+          - in: path
+            name: id
+            type: integer
+            required: true
+        responses:
+          204:
+            description: Tarefa removida com sucesso
+
+        """
         tarefa = tarefa_service.listar_tarefa_id(id)
         if tarefa is None:
             return make_response(jsonify("Tarefa não encontrada"), 404)
